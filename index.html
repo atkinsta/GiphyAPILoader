@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Giphy API Loader</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
+
 <body>
-    
+    <div id="sidebar" class="text-center">
+        <input id="searchterm" type="text" placeholder="Search for gifs here...">
+        <br>
+        <button id="submit" class="btn btn-primary">Add New Search</button>
+        <br>
+        <button type="button" class="btn btn-primary btn-sm">Click to Play</button>
+        <button type="button" class="btn btn-primary btn-sm">Hover to Play</button>
+        <br>
+        <button type="button" class="search btn btn-secondary">Animals</button>
+        <button type="button" class="search btn btn-secondary">Funny</button>
+        <button type="button" class="search btn btn-secondary">What's Trending</button>
+        <button type="button" class="search btn btn-secondary">Movies</button>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <script src="app.js"></script>
 </body>
+
 </html>
