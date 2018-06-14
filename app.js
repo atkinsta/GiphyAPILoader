@@ -16,10 +16,10 @@ $(document).ready(function () { //Always display the buttons from favorites
 })
 
 function displayButtons() { //Simple loop to append the buttons to the sidebar. 
-    $("#buttonholder").empty();
     buttonArray.forEach(topic => {
         var newButton = $("<button>");
         newButton.addClass("search btn btn-secondary");
+        newButton.attr("id", topic);
         newButton.text(topic);
         $("#buttonholder").append(newButton);
     });
@@ -75,9 +75,12 @@ $("#favorite").on("click", function () { //Adds a button, adds the search term t
     localStorage.setItem("buttonArray", JSON.stringify(buttonArray));
 });
 
-$(document).on('mousedown', ".search", function() {         //On mousedown (click and hold), set a timer for 1.5 seconds. Delete the item from the array and update the buttons. 
-    timeoutId = setTimeout(function() {
-        buttonArray.splice($(this).text().indexOf(), 1);
+$(document).on('mousedown', ".search", function() {       //On mousedown (click and hold), set a timer for 1.5 seconds. Delete the item from the array and update the buttons. 
+    var locator = $(this).text();                         //WOW, this took a while to figure out. Have to save the value of this.text BEFORE the timeout. Because this changes meaning
+    timeoutId = setTimeout(function() {                   //when its INSIDE the timeout function. WEW LADS, spend some TIME on this. Works now tho so we're good.
+        $("#buttonholder").empty();
+        buttonArray.splice(buttonArray.indexOf(locator), 1);    
+        localStorage.setItem("buttonArray", JSON.stringify(buttonArray));   //Update localstorage variable to use in the displayButtons call. 
         displayButtons();
     }, 1500);
 }).on('mouseup mouseleave', function() {                    //On mouseup (release the hold), clear the timer and don't delete the item.
