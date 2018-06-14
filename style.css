@@ -3,7 +3,7 @@
     min-height: 2500px;
     margin-bottom: 20px;
     /* padding-bottom: 100%; */
-    padding-top: 20px;
+    padding: 20px;
     float: left;
     margin: 20px 20px 0 20px ;
     width: auto;
@@ -21,11 +21,19 @@
 #submit {
     margin-top: 5px;
 }
-.content {
+.imgContainer {
     /* float: left; */
     margin: 20px 20px 0 0;
     display: inline-block;
+    position: relative;
+    text-align: center;
+}
 
+.rating {
+    position: absolute;
+    bottom: 5px;
+    left: 12px;
+    color: white;
 }
 
 .btn {
@@ -35,6 +43,7 @@
 .search {
     margin: 5px auto;
     width: 80%;
+    display: block;
 }
 
 body {
