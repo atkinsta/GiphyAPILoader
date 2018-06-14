@@ -1,39 +1,37 @@
+var timeoutId; //used to remove buttons on click-and-hold
 var currentSearch;
-var hoverOn = true;
+var hoverOn = true; //sets the trigger option for playing gifs, hoverOn is recommended! click is lame.
 var buttonArray;
+var queryURL;
 var baseURL = "https://api.giphy.com/v1/gifs/search?api_key=BDU3KiPFpEdQOmsEDOWmrTfIrkdzo4Ji&limit=25&offset=0&rating=PG&lang=en&q="
-if (localStorage.getItem("buttonArray") == null){
+if (localStorage.getItem("buttonArray") == null) {                          //If local storage doesn't have a buttonArray already saved...
     buttonArray = ["Cats", "Dogs", "Television", "Movies", "Anything"];
 }
 else {
-    buttonArray = JSON.parse("buttonArray")
+    buttonArray = JSON.parse(localStorage.getItem("buttonArray"));          //Parse the array from local storage to keep favorites
 }
 
-$(document).ready(function() {
-    displayButtons();
+$(document).ready(function () { //Always display the buttons from favorites
+    displayButtons();           
 })
 
-function displayButtons() {
+function displayButtons() { //Simple loop to append the buttons to the sidebar. 
+    $("#buttonholder").empty();
     buttonArray.forEach(topic => {
         var newButton = $("<button>");
         newButton.addClass("search btn btn-secondary");
         newButton.text(topic);
-        $("#sidebar").append(newButton);
+        $("#buttonholder").append(newButton);
     });
 }
 
-$("#submit").on("click", function () {
-    $("#contentholder").empty();
-    var searchTerm = $("#searchterm").val();
-    currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
-    var queryURL = baseURL + searchTerm;
+function ajaxCall() { //I called this twice in the program so I figured I'd throw it in a function.
     $.ajax({
         url: queryURL,
         method: "GET"
     }).then(function (response) {
-        console.log(response);
         var data = response.data;
-        for (var i = 0; i < 25; i++) {
+        for (var i = 0; i < 25; i++) {          //Create image containers for each item in the array, each of which has an image and a span. The span is layered on top of the image.
             var imgContainer = $("<div>");
             imgContainer.addClass("imgContainer");
             var imgSpan = $("<span>");
@@ -49,27 +47,48 @@ $("#submit").on("click", function () {
             $("#contentholder").append(imgContainer);
         }
     });
+}
+
+$("#submit").on("click", function () {
+    $("#contentholder").empty();
+    var searchTerm = $("#searchterm").val();
+    currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
+    queryURL = baseURL + searchTerm;
+    ajaxCall();
 });
 
-$(".controls").on("click", function () {
-    console.log($(this).val());
+$(".controls").on("click", function () { //Sets the hover option. 
     if ($(this).val() === "click") {
         hoverOn = false;
-        console.log(hoverOn);
     }
     else if ($(this).val() === "hover") {
         hoverOn = true;
-        console.log(hoverOn);
     }
 });
 
-$("#favorite").on("click", function() {
+$("#favorite").on("click", function () { //Adds a button, adds the search term to the buttonArray, updates the local storage variable. 
     var newButton = $("<button>");
     newButton.addClass("search btn btn-secondary");
     newButton.text(currentSearch);
     $("#sidebar").append(newButton);
-    buttonArray.push(currentSearch.toString());
+    buttonArray.push(currentSearch);
     localStorage.setItem("buttonArray", JSON.stringify(buttonArray));
+});
+
+$(document).on('mousedown', ".search", function() {         //On mousedown (click and hold), set a timer for 1.5 seconds. Delete the item from the array and update the buttons. 
+    timeoutId = setTimeout(function() {
+        buttonArray.splice($(this).text().indexOf(), 1);
+        displayButtons();
+    }, 1500);
+}).on('mouseup mouseleave', function() {                    //On mouseup (release the hold), clear the timer and don't delete the item.
+    clearTimeout(timeoutId);
+});
+
+$(document).on("click", ".search", function () {
+    $("#contentholder").empty();
+    var searchTerm = $(this).text();
+    queryURL = baseURL + searchTerm;
+    ajaxCall();
 });
 
 $(document).on("mouseover", ".content", function () {
