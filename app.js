@@ -12,7 +12,8 @@ else {
 }
 
 $(document).ready(function () { //Always display the buttons from favorites
-    displayButtons();           
+    localStorage.setItem("buttonArray", JSON.stringify(buttonArray)); // adding this here just for safety. It does update this localstorage variable in other places, but I figure
+    displayButtons();                                                 // it's safer to just initialize it at the start.  
 })
 
 function displayButtons() { //Simple loop to append the buttons to the sidebar. 
@@ -70,7 +71,7 @@ $("#favorite").on("click", function () { //Adds a button, adds the search term t
     var newButton = $("<button>");
     newButton.addClass("search btn btn-secondary");
     newButton.text(currentSearch);
-    $("#sidebar").append(newButton);
+    $("#buttonholder").append(newButton); //THIS was the problem with removing favorites. It was set to #sidebar append.
     buttonArray.push(currentSearch);
     localStorage.setItem("buttonArray", JSON.stringify(buttonArray));
 });
@@ -79,7 +80,7 @@ $(document).on('mousedown', ".search", function() {       //On mousedown (click 
     var locator = $(this).text();                         //WOW, this took a while to figure out. Have to save the value of this.text BEFORE the timeout. Because "this" changes meaning
     timeoutId = setTimeout(function() {                   //when its INSIDE the timeout function. WEW LADS, spend some TIME on this. Works now tho so we're good.
         $("#buttonholder").empty();                       //There is still a bug where a ghost button MIGHT remain after you delete a favorite, but it goes away on refresh. Idk what that is. 
-        buttonArray.splice(buttonArray.indexOf(locator), 1); //Not going to work it out.   
+        buttonArray.splice(buttonArray.indexOf(locator), 1); //Not going to work it out.   UPDATE: found it. Line 75.... I feel dumb
         localStorage.setItem("buttonArray", JSON.stringify(buttonArray));   //Update localstorage variable to use in the displayButtons call. 
         displayButtons();
     }, 1500);
