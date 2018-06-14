@@ -76,10 +76,10 @@ $("#favorite").on("click", function () { //Adds a button, adds the search term t
 });
 
 $(document).on('mousedown', ".search", function() {       //On mousedown (click and hold), set a timer for 1.5 seconds. Delete the item from the array and update the buttons. 
-    var locator = $(this).text();                         //WOW, this took a while to figure out. Have to save the value of this.text BEFORE the timeout. Because this changes meaning
+    var locator = $(this).text();                         //WOW, this took a while to figure out. Have to save the value of this.text BEFORE the timeout. Because "this" changes meaning
     timeoutId = setTimeout(function() {                   //when its INSIDE the timeout function. WEW LADS, spend some TIME on this. Works now tho so we're good.
-        $("#buttonholder").empty();
-        buttonArray.splice(buttonArray.indexOf(locator), 1);    
+        $("#buttonholder").empty();                       //There is still a bug where a ghost button MIGHT remain after you delete a favorite, but it goes away on refresh. Idk what that is. 
+        buttonArray.splice(buttonArray.indexOf(locator), 1); //Not going to work it out.   
         localStorage.setItem("buttonArray", JSON.stringify(buttonArray));   //Update localstorage variable to use in the displayButtons call. 
         displayButtons();
     }, 1500);
