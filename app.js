@@ -1,3 +1,7 @@
+//TODO: Add a check to when the user adds favorites so that they don't add repeats/undefined things, or empty strings for that matter.
+//TODO: Add a "load more" button which shifts the Giphy search to the next page of gifs.
+//TODO: Add a seperate button and API request for trending on GIPHY and other types of searches. 
+
 var timeoutId; //used to remove buttons on click-and-hold
 var currentSearch;
 var hoverOn = true; //sets the trigger option for playing gifs, hoverOn is recommended! click is lame.
@@ -20,7 +24,6 @@ function displayButtons() { //Simple loop to append the buttons to the sidebar.
     buttonArray.forEach(topic => {
         var newButton = $("<button>");
         newButton.addClass("search btn btn-secondary");
-        newButton.attr("id", topic);
         newButton.text(topic);
         $("#buttonholder").append(newButton);
     });
