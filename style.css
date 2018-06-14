@@ -1,6 +1,6 @@
 #sidebar {
     /* height: 100%; */
-    min-height: 800px;
+    min-height: 2500px;
     margin-bottom: 20px;
     /* padding-bottom: 100%; */
     padding-top: 20px;
@@ -11,9 +11,6 @@
 }
 
 #contentholder {
-    /* width: auto;
-    height: auto;
-    justify-content: baseline; */
 }
 
 #searchterm {
@@ -26,8 +23,9 @@
 }
 .content {
     /* float: left; */
-    margin: 0;
+    margin: 20px 20px 0 0;
     display: inline-block;
+
 }
 
 .btn {
