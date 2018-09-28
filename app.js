@@ -61,6 +61,16 @@ $("#submit").on("click", function () {
     ajaxCall();
 });
 
+$("#searchterm").on("keyup", function(event) {
+    if (event.keyCode == 13) {
+        $("#contentholder").empty();
+        var searchTerm = $("#searchterm").val();
+        currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
+        queryURL = baseURL + searchTerm;
+        ajaxCall();
+    }
+});
+
 $(".controls").on("click", function () { //Sets the hover option. 
     if ($(this).val() === "click") {
         hoverOn = false;
