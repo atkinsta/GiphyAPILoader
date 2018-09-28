@@ -18,7 +18,15 @@ else {
 $(document).ready(function () { //Always display the buttons from favorites
     localStorage.setItem("buttonArray", JSON.stringify(buttonArray)); // adding this here just for safety. It does update this localstorage variable in other places, but I figure
     displayButtons();                                                 // it's safer to just initialize it at the start.  
-})
+});
+
+function handleSearch() {
+    $("#contentholder").empty();
+    var searchTerm = $("#searchterm").val();
+    currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
+    queryURL = baseURL + searchTerm;
+    ajaxCall();
+}
 
 function displayButtons() { //Simple loop to append the buttons to the sidebar. 
     buttonArray.forEach(topic => {
@@ -54,20 +62,12 @@ function ajaxCall() { //I called this twice in the program so I figured I'd thro
 }
 
 $("#submit").on("click", function () {
-    $("#contentholder").empty();
-    var searchTerm = $("#searchterm").val();
-    currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
-    queryURL = baseURL + searchTerm;
-    ajaxCall();
+    handleSearch();
 });
 
 $("#searchterm").on("keyup", function(event) {
     if (event.keyCode == 13) {
-        $("#contentholder").empty();
-        var searchTerm = $("#searchterm").val();
-        currentSearch = searchTerm; //saves the current search so the user can add it to favorites.
-        queryURL = baseURL + searchTerm;
-        ajaxCall();
+        handleSearch();
     }
 });
 
